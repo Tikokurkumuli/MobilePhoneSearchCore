@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AdvertisementCore.Client;
 using AdvertisementCore.Helper;
 using AdvertisementCore.Options;
 using Microsoft.AspNetCore.Builder;
@@ -29,6 +30,10 @@ namespace AdvertisementCore
         {
             services.Configure<ApiOptions>(options => Configuration.GetSection(nameof(ApiOptions)).Bind(options));
             services.Configure<ApiOptions1>(options => Configuration.GetSection(nameof(ApiOptions1)).Bind(options));
+            services.AddHttpClient<PhoneSearchClient>(conf =>
+            {
+                conf.BaseAddress = new Uri(Configuration["Client:PhoneSearchApiRootUrl"] ?? throw new ArgumentNullException("Client:PhoneSearchApiRootUrl", "Parameter not set in appsettings.json"));
+            });
             services.AddScoped<IMobilePhoneApiHelper, MobilePhonesApiHelper>();
             services.AddScoped<IManufacturerApiHelper, ManufacturerHelper>();
             services.AddMvc();

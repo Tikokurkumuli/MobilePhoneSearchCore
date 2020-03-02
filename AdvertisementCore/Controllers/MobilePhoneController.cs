@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AdvertisementCore.Client;
 using AdvertisementCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using static AdvertisementCore.Helper.ManufacturerHelper1;
@@ -13,12 +14,16 @@ namespace AdvertisementCore.Controllers
     {
         private readonly IMobilePhoneApiHelper _apiHelper;
         private readonly IManufacturerApiHelper _manufHelper;
+        private readonly PhoneSearchClient _phoneSearchClient;
+
+
         public List<MainViewModel> viewModels = new List<MainViewModel>();
         MainViewModel mainViewModel = new MainViewModel();
-        public MobilePhoneController(IMobilePhoneApiHelper apiHelper, IManufacturerApiHelper manufHelper)
+        public MobilePhoneController(IMobilePhoneApiHelper apiHelper, IManufacturerApiHelper manufHelper, PhoneSearchClient phoneSearchClient)
         {
             _apiHelper = apiHelper;
             _manufHelper = manufHelper;
+            _phoneSearchClient = phoneSearchClient;
         }
         public async Task<IActionResult> Index(Filter filter)
         {
@@ -28,6 +33,13 @@ namespace AdvertisementCore.Controllers
             mainViewModel.Manufacturers = manufacturers;
 
             return View(mainViewModel);
+        }
+
+        public async Task<IActionResult> Test()
+        {
+            await _phoneSearchClient.Manufacturer_GetAsync();
+
+            return null;
         }
         public ActionResult Details(MobilePhone data)
         {
