@@ -1,0 +1,214 @@
+﻿@using AdvertisementCore.Models
+@model MainViewModel
+<div>
+    <input type="text" id="SearchName" name="SearchName" style="width:13%; height:4%;" placeholder="ძებნა" autocomplete="off" onkeyup="searchByMerchantName()" />
+</div>&emsp;
+
+    <div>
+        <select class="selectpicker list-multiple-select" asp-for="Manufacturer" id="" data-live-search="true" data-style="list-filter-select" title="მწარმოებელი" data-size="6">
+            @foreach (var Manufactuers in Model.Manufacturers)
+            {
+                    <option value="@Manufactuers.ManufacturerId">@Manufactuers.ManufacturerName</option>
+            }
+        </select>
+    </div>
+
+<div class="form-group">
+    <h6>ფასი</h6>
+    <div class="d-flex justify-content-between filter-select-group">
+        <input asp-for="PriceFrom" class="form-control" placeholder="დან" />
+        <input asp-for="PriceTo" class="form-control" placeholder="მდე" />
+    </div>
+</div>
+<button id="btn-search-id">ძებნა</button>
+<div>
+    <div>
+        <table id="TblId" border="1" style="width:100%;height:30%;">
+            <thead>
+                <tr style="background-color: #678a0c;color: white;text-align: center; height: 30px;">
+                    <th>განცხადების სათაური</th>
+                    <th>სურათი</th>
+                    <th>დეტალების ნახვა</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.MobilePhones.Count() != 0)
+                {
+                    foreach (var item in Model.MobilePhones)
+                    {
+                        <tr>
+                            <td style="display: none">@item.Id</td>
+                            <td>@item.Name</td>
+                            <td><img src="@item.Image" /></td>
+                            <td>
+                                @Html.ActionLink("დეტალები", "Details", "Advertisement",
+                                        new {
+                                            //Id = item.Id,
+                                            //PicturePath=item.PicturePath,
+                                            //Title=item.Title,
+                                            //TelNumber=item.TelNumber,
+                                            //Description=item.Description
+                                        },null)
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr style="text-align: center;">
+                        <td>ჩანაწერი ვერ მოიძებნა</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    function searchByMerchantName() {
+        debugger;
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("SearchName");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("TblId");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            debugger;
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                debugger;
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    $('#btn-search-id').click(function () {
+        debugger;
+           var filter = [$('#selectExact').val(),$('#selectExact1').val(),$('#selectExact2').val()]
+            var dataToSend = {};
+            var newArr = [];
+        filter.forEach(function (el, i) {
+                dataToSend["ids[" + i + "]"] = el;
+            });
+        filter.forEach(function (e, i) {
+                if (e.length != 0) {
+                    newArr.push(e)
+                }
+               
+            });
+           
+        filter = ids.filter(Boolean)
+        $('.seos-compare').val(filter);
+            console.log(ids)
+            console.log($('.seos-compare').val())
+           
+                $.ajax({
+                    type: 'GET',
+                    url: '/MobilePhone/Index',
+                    data:  dataToSend,
+                    success: function () {
+                    },
+                });
+
+        });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
